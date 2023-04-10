@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrarecibo" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5bf18aa-ce43-4c83-87c8-ff3ee61a4536">
+	<property name="ireport.zoom" value="1.6963904734899393"/>
+	<property name="ireport.x" value="462"/>
+	<property name="ireport.y" value="25"/>
+	<parameter name="Inicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Fin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT numcompania,numfactura,monto_total,
+(SELECT sum(abono) AS suma_abonos FROM abonos WHERE factura=numfactura) AS total,compania
+
+FROM company WHERE fecha_recepcion BETWEEN $P{Inicio} AND $P{Fin}]]>
+	</queryString>
+	<field name="numcompania" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numfactura" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto_total" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total" class="java.lang.Double"/>
+	<field name="compania" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="Adeudo" class="java.lang.Float">
+		<variableExpression><![CDATA[$F{monto_total} - $F{total}]]></variableExpression>
+	</variable>
+	<variable name="Porcentaje" class="java.lang.Float">
+		<variableExpression><![CDATA[(($F{total} * 100)/($F{monto_total}))]]></variableExpression>
+	</variable>
+	<title>
+		<band height="75" splitType="Stretch">
+			<rectangle>
+				<reportElement x="25" y="2" width="727" height="67" uuid="72d8bce3-be63-4a6e-98a9-fe2e92b11158"/>
+			</rectangle>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement mode="Transparent" x="25" y="3" width="90" height="63" uuid="740099c5-89cb-43e5-8cff-a6a165a1de23"/>
+				<imageExpression><![CDATA["\\\\10.55.4.4\\Sistemas HSTE\\CXCFacturas\\Logo\\Logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="121" y="3" width="617" height="28" uuid="19cecc95-7af2-4f0c-a75e-1da7e2a2de29"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HOSPITAL DEL SURESTE A.C. - Depto. de Cartera y Cobranza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="121" y="22" width="391" height="23" uuid="8596f71f-3a1e-4669-ad9b-ce08745c2357"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Reporte Estadístico de Pagos por Periodo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="50" width="72" height="16" uuid="3797332f-4059-4663-8904-086a7795e60a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periodo:]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="192" y="50" width="86" height="16" uuid="65bc0c7b-89f8-44cd-8621-5f7733a12285"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="288" y="50" width="86" height="16" uuid="0dfce8d8-3eca-4bf2-a3e3-e25aee238803"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Fin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="277" y="50" width="12" height="16" uuid="cb6e605a-ea22-4873-a4f7-e587276d2afc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Opaque" x="25" y="3" width="727" height="17" forecolor="#F0F0F0" backcolor="#CCCCCC" uuid="243db880-f11c-4517-8eef-04128c10aa8a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="25" y="2" width="65" height="16" uuid="39896fa0-d2f1-4c26-b752-f7ef5ab6ef43"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FACTURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="2" width="114" height="16" uuid="5d04b94f-3570-40a7-b554-66b92a33fb63"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="204" y="2" width="112" height="17" uuid="79d8bfbf-af76-4c7e-9433-13b6a82c8d27"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPORTE PAGADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="2" width="114" height="16" uuid="ac5eb948-1073-440c-ab62-3f753f7cc04f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ADEUDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="434" y="2" width="45" height="16" uuid="da56def5-ed35-4362-812a-3e9733307cf0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<line>
+				<reportElement x="24" y="2" width="728" height="1" uuid="f1ad64df-5cca-4b45-b62f-410890f404d7"/>
+			</line>
+			<line>
+				<reportElement x="90" y="2" width="1" height="20" uuid="72b080cd-1e52-41cd-928d-a34bc2ae1fc4"/>
+			</line>
+			<line>
+				<reportElement x="203" y="2" width="1" height="20" uuid="9d877911-ccf9-49cc-93de-39e889cffa7f"/>
+			</line>
+			<line>
+				<reportElement x="321" y="2" width="1" height="20" uuid="82356e92-77f3-469f-83ee-bd18798f9d56"/>
+			</line>
+			<line>
+				<reportElement x="434" y="2" width="1" height="20" uuid="085f8e9d-fc99-4b9c-a2eb-8829e7ef756d"/>
+			</line>
+			<line>
+				<reportElement x="490" y="2" width="1" height="20" uuid="9606e28e-2c58-47c2-8cac-c4be63a16a32"/>
+			</line>
+			<line>
+				<reportElement x="24" y="2" width="1" height="20" uuid="8e62666e-339e-4d6e-89de-0ba78ba8c279"/>
+			</line>
+			<line>
+				<reportElement x="751" y="2" width="1" height="20" uuid="f2bbcbc5-2d5a-4c21-877f-c570b7f90773"/>
+			</line>
+			<line>
+				<reportElement x="24" y="21" width="728" height="1" uuid="65449555-7efe-4b64-afee-e5eac82e1de4"/>
+			</line>
+			<staticText>
+				<reportElement x="491" y="4" width="259" height="16" uuid="5c116365-aeab-4e01-a383-e14d4369f710"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPAÑIA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<line>
+				<reportElement x="90" y="1" width="1" height="12" uuid="d139454d-732b-4475-940f-37f051ac6801"/>
+			</line>
+			<line>
+				<reportElement x="203" y="1" width="1" height="12" uuid="2335e68a-1cf4-460b-84b2-1cc04ccef799"/>
+			</line>
+			<line>
+				<reportElement x="321" y="1" width="1" height="12" uuid="3253c46c-a506-4643-b059-d97e0aac9bcd"/>
+			</line>
+			<line>
+				<reportElement x="434" y="1" width="1" height="12" uuid="79669947-6968-4d67-8043-73d9048bbe6a"/>
+			</line>
+			<line>
+				<reportElement x="490" y="1" width="1" height="12" uuid="b3c6ae9f-6ebb-4734-a069-e7e031b2cf15"/>
+			</line>
+			<line>
+				<reportElement x="24" y="1" width="1" height="12" uuid="476ab778-fa70-4a25-b284-cb22a9d9971c"/>
+			</line>
+			<line>
+				<reportElement x="751" y="1" width="1" height="12" uuid="9d0b9157-4310-4d14-ad29-673221798b5b"/>
+			</line>
+			<line>
+				<reportElement x="24" y="13" width="728" height="1" uuid="33e243b9-4ca0-4768-892a-8e15be162922"/>
+			</line>
+			<textField>
+				<reportElement x="25" y="1" width="65" height="12" uuid="751e3b0d-1bf4-424e-bc80-1f3a6a27c34e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numfactura}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="101" y="1" width="95" height="13" uuid="f56da8ce-c0b2-479f-96f9-5ed6d5b0dc4e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="210" y="0" width="106" height="13" uuid="4849e284-c58c-466f-9834-53da0b1025ab"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="493" y="1" width="259" height="12" uuid="7f17626c-5bb8-476a-9d45-7b7b076caaf0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numcompania}+"  "+$F{compania}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="328" y="1" width="98" height="12" uuid="e88caba5-5b1e-45fd-a3ec-4394902220f5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Adeudo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="437" y="1" width="40" height="13" uuid="45e9d9dc-8ce6-4f35-9f0e-0f195cae0572"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Porcentaje}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="479" y="1" width="11" height="13" uuid="955c1b99-9ff8-4ef4-8b85-6564609c925f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="631" y="11" width="80" height="15" uuid="510ed55a-e164-4bac-8750-04a4ffaccbc3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pág "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="711" y="11" width="40" height="15" uuid="6fdd31cb-4147-4c85-a005-ce3737e31302"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMMMM-yyyy  hh:mm aaa">
+				<reportElement x="25" y="11" width="136" height="15" uuid="583f8000-557e-45e2-83bf-e9fa63029269"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="387" y="0" width="36" height="26" uuid="109de393-dc77-4eed-8d6d-14508c02689d"/>
+				<imageExpression><![CDATA["\\\\10.55.4.4\\Sistemas HSTE\\CXCFacturas\\Logo\\Logo Cobranza.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="328" y="0" width="59" height="26" uuid="9ee0bd64-deff-4999-8e30-884971dccf0b"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Managed By]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

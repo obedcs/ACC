@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrarecibo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5bf18aa-ce43-4c83-87c8-ff3ee61a4536">
+	<property name="ireport.zoom" value="1.363636363636366"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Folio" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT * FROM assist_responsableujat WHERE folio = $P{Folio}]]>
+	</queryString>
+	<field name="folio" class="java.lang.String"/>
+	<field name="pac_nombre" class="java.lang.String"/>
+	<field name="pac_parent_con_resp" class="java.lang.String"/>
+	<field name="pac_categoria" class="java.lang.String"/>
+	<field name="pac_adscrip" class="java.lang.String"/>
+	<field name="pac_ficha" class="java.lang.String"/>
+	<field name="pac_domicilio" class="java.lang.String"/>
+	<field name="pac_tel" class="java.lang.String"/>
+	<field name="resp_nombre" class="java.lang.String"/>
+	<field name="resp_parent_con_pac" class="java.lang.String"/>
+	<field name="resp_categoria" class="java.lang.String"/>
+	<field name="resp_adscrip" class="java.lang.String"/>
+	<field name="resp_ficha" class="java.lang.String"/>
+	<field name="resp_domicilio" class="java.lang.String"/>
+	<field name="resp_tel" class="java.lang.String"/>
+	<field name="resp_docto_ident" class="java.lang.String"/>
+	<title>
+		<band height="694" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement mode="Transparent" x="4" y="5" width="101" height="92" uuid="740099c5-89cb-43e5-8cff-a6a165a1de23"/>
+				<imageExpression><![CDATA["\\\\10.55.4.4\\Sistemas HSTE\\CXCFacturas\\Logo\\Logo UJAT.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="108" y="13" width="459" height="28" uuid="19cecc95-7af2-4f0c-a75e-1da7e2a2de29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNIVERSIDAD JUAREZ AUTONOMA DE TABASCO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="108" y="40" width="459" height="18" uuid="a8fb7251-0caf-4e29-80ed-75853d0bc3ba"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[S.S.A.                         SERVICIOS MEDICOS                         D.R.H.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="108" y="57" width="459" height="26" uuid="a89573be-79c2-4398-b97d-a69588c82394"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[HOJA DE OBLIGACION DE PAGO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="6" y="117" width="559" height="93" uuid="d9a8f1d9-f3ed-480c-8a55-0ad118b9fe84"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="7" y="118" width="53" height="15" uuid="a51f12d1-9987-48d4-9f54-93d6ae166154"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PACIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="135" width="53" height="15" uuid="15d87a4f-1019-41bb-8c34-64ed559f9a39"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[NOMBRE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="63" y="135" width="313" height="15" uuid="9831893c-92f7-420e-886b-17aede08912c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pac_nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="377" y="135" width="69" height="15" uuid="ee2585e7-0328-4dbe-a207-9627be3cf2c6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[PARENTESCO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="446" y="135" width="118" height="15" uuid="bf4ba1db-b8e2-4b8c-8c31-37dee8524bd2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pac_parent_con_resp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="150" width="64" height="15" uuid="bc70777a-a623-493c-a914-70417eeabf8a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[CATEGORIA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="293" y="150" width="72" height="15" uuid="bc2ee2ee-f41b-495f-8de0-a96bfd89544b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[ADSCRIPCION:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="459" y="150" width="38" height="15" uuid="ff42166b-cc3c-44d2-9146-f53b001227ab"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[FICHA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="165" width="64" height="15" uuid="ed9996d9-690c-48b4-ae7c-e7da834ac036"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[DOMICILIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="180" width="58" height="15" uuid="f049974d-b2bf-4cce-b558-ab81d3bd43f9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[TELEFONO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="74" y="150" width="219" height="15" uuid="be7b9bec-c6a4-44f6-ab8b-825e30e929fb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pac_categoria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="365" y="150" width="94" height="15" uuid="baba1641-239c-4ed1-a8dd-d9b3156acaae"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pac_adscrip}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="497" y="150" width="67" height="15" uuid="adefcf09-742b-4ebe-a8ef-09e7a82a5b6a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pac_ficha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="165" width="490" height="15" uuid="dbc7c8ee-1d08-4a68-9473-8f2b4f03b8e2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pac_domicilio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="180" width="158" height="15" uuid="541f2fd3-5905-4507-a0d3-17288ca9e9f2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pac_tel}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="6" y="228" width="559" height="223" uuid="1a61bf6d-cd3e-4bf8-8c6d-2989aa3cf8e5"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="231" width="554" height="62" uuid="4a725a1b-d5f6-436f-9bd1-7316b226449d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[DATOS DEL RESPONSABLE DEL PAGO: En el caso de no tener derecho a los Servicios Médicos que otorga la UJAT, el suscrito se obliga a reintegrar el importe de los gastos que ocasione la prestación del Servicio Médico, quirúrgico o de otra índole, con el entendido de la falta que se comete si no se cumple y al proceso legal al que hubiera lugar.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="348" width="58" height="15" uuid="6e6fb858-d718-4c7a-a253-9465d92d4f44"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[TELEFONO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="459" y="318" width="38" height="15" uuid="9e45e051-b73a-4e3a-8322-1db8f6d29bfc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[FICHA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="303" width="53" height="15" uuid="2b466fff-3216-42fe-aa1a-9bb9af8fe1a9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[NOMBRE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="63" y="303" width="313" height="15" uuid="50a3a10b-b8e1-4516-8f34-726e655ecc28"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resp_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="446" y="303" width="118" height="15" uuid="6d6fb73c-d66c-4750-a318-a9e49f81c73c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resp_parent_con_pac}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="318" width="64" height="15" uuid="457561e3-9153-41e7-a332-e53669c2db68"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[CATEGORIA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="333" width="64" height="15" uuid="2c9cf6c1-c128-4322-b95e-ccdd0d622c12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[DOMICILIO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="365" y="318" width="94" height="15" uuid="e8c3dae8-d26d-4e54-ad73-c20e27b0768b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resp_adscrip}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="377" y="303" width="69" height="15" uuid="bafe4794-9732-4596-916a-0b8f112698d8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[PARENTESCO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="74" y="333" width="490" height="15" uuid="7357de8b-cc05-4284-a04d-7c9c5839499f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resp_domicilio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="497" y="318" width="67" height="15" uuid="dedeb0b6-4f8f-4384-84c0-099e3006b28d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resp_ficha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="348" width="158" height="15" uuid="1a2cf822-c26a-4b58-8e2f-9dd66ada9154"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resp_tel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="318" width="219" height="15" uuid="a04537d0-b416-4e6b-b94d-3f06f77aa564"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resp_categoria}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="293" y="318" width="72" height="15" uuid="adc0aca7-9c1f-4b14-a0d7-be81dd4339f1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[ADSCRIPCION:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="235" y="348" width="170" height="15" uuid="f4d391ff-40aa-4a63-be08-b4b5c2d95891"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[DOCUMENTO DE IDENTIFICACION:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="405" y="348" width="158" height="15" uuid="70a0e2ac-b68b-4d68-89e1-58973c0331da"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resp_docto_ident}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="348" y="420" width="174" height="15" uuid="dca3433f-4e3f-4da5-9e09-2a3e189d6914"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE Y FIRMA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="348" y="383" width="174" height="35" uuid="780f8dcf-d275-4aa5-980f-6ea168a479bb"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Calibri" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resp_nombre}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="348" y="419" width="174" height="1" uuid="2bb58790-64a4-4ab3-8e29-ff6d14dee728"/>
+			</line>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="465" y="486" width="100" height="15" uuid="0fb1ea51-81e5-4345-9748-d29a92cea2ad"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="322" y="486" width="141" height="15" uuid="5a6cc410-bdd8-41e4-96e5-332939ac878a"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[VILLAHERMOSA; TABASCO A]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="44" y="539" width="521" height="125" uuid="45668247-209c-4b68-a485-6ff388298644"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[1.- Para su atención deben presentar: CREDENCIAL VIGENTE del Servocop Médico de la UJAT y/o último recibo de pago de identificación si es necesario.
+
+2.- Todos los pacientes que ingresen a ésta institución deben FIRMARLA ( urgencia o programada ) en URGENCIAS NO EXIGEN PASE DE ATENCIÓN.
+
+3.- La HOJA de OBLIGACIÓN de PAGO se debe anexar a la factura del paciente. Además de la hoja de Ingreso y Egreso debidamente firmadas.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="539" width="37" height="15" uuid="82c6ebc1-baaf-4aec-a495-4d5d3eddf045"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOTA:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="63" y="150" width="313" height="1" uuid="722c07b0-cb38-4459-a360-09f30575446e"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="446" y="149" width="117" height="1" uuid="b7c6b11b-aeeb-4ce2-8886-ee0ee9d64b25"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="74" y="164" width="219" height="1" uuid="01078d3a-220c-4144-bfba-d0d7e20959f3"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="365" y="165" width="94" height="1" uuid="e5235412-e6d3-44c2-8be3-8be62170f61a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="497" y="165" width="66" height="1" uuid="ba671c5b-88ea-490d-9815-7127edb55fa5"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="74" y="179" width="489" height="1" uuid="c2dc9052-327a-4e42-80bb-6169847b2af0"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="68" y="195" width="158" height="1" uuid="3208d6c9-70ba-4029-a7a0-b3cf863c49bf"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="63" y="318" width="313" height="1" uuid="5d027a8f-b8f3-459c-8708-e5d49f5382cd"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="446" y="317" width="117" height="1" uuid="e5b37ebc-c574-4cbb-ac5f-d623bb80b15c"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="74" y="332" width="219" height="1" uuid="8d201b00-ac6f-4c7a-8e23-cbed5bfe0ca0"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="365" y="333" width="94" height="1" uuid="a0e3f3e9-d84d-42b3-a96c-dc780a87902a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="497" y="333" width="66" height="1" uuid="ca69c2c5-fce5-4611-90cf-461a3ae1d182"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="74" y="347" width="489" height="1" uuid="9f3d74c0-9d6d-4c25-b5a0-0998837261f2"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="68" y="363" width="158" height="1" uuid="99b3aaf6-d1e2-4664-a0e8-dfcb713994a0"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+</jasperReport>

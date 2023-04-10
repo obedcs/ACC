@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrarecibo" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5bf18aa-ce43-4c83-87c8-ff3ee61a4536">
+	<property name="ireport.zoom" value="2.257895720215112"/>
+	<property name="ireport.x" value="558"/>
+	<property name="ireport.y" value="82"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="Inicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Fin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT *,
+IF(
+(Alta-30) > 30,
+(30Dias+60Dias+120Dias+365Dias+720Dias+mas720Dias),0
+)as SaldoVencido,
+IF(
+(Alta-30) <= 30,
+(30Dias+60Dias+120Dias+365Dias+720Dias+mas720Dias),0
+)as SaldoPorVencer
+ FROM (
+SELECT *, (Alta-30) as Vencido,
+IF(
+  (Alta-30) < 30, monto_total,0
+)as 30Dias,
+IF(
+  (((Alta-30) > 30) && (Alta-30) < 60), monto_total,0
+)as 60Dias,
+IF(
+  (((Alta-30) > 60) && (Alta-30) < 120), monto_total,0
+)as 120Dias,
+IF(
+  (((Alta-30) > 120) && (Alta-30) < 365), monto_total,0
+)as 365Dias,
+IF(
+  (((Alta-30) > 365) && (Alta-30) < 720), monto_total,0
+)as 720Dias,
+IF(
+  ((Alta-30) > 720), monto_total,0
+)as mas720Dias
+FROM (SELECT compania,numfactura, DATE(fecha_status) as fecha_status,monto_total,
+		  IF(
+    (EXTRACT(YEAR FROM curdate())-EXTRACT(year from (fecha_status))) = 0,
+     DAYOFYEAR(curdate())-DAYOFYEAR(fecha_status),
+
+ IF(
+    (EXTRACT(YEAR FROM  curdate())-EXTRACT(YEAR FROM  (fecha_status))) < 0,
+     DAYOFYEAR(
+        CONCAT("",EXTRACT(YEAR FROM(fecha_status)),"-12-31"))
+               -DAYOFYEAR(fecha_status)
+               +DAYOFYEAR(curdate()),
+ 'Error'
+ )
+) as Alta
+FROM company
+INNER JOIN bitacora ON factura = numfactura AND fecha_status=stamp_bitacora AND status_fact=status_factura
+WHERE status_factura = 'Entregada'
+AND fact_assist BETWEEN $P{Inicio} AND $P{Fin}
+) as SubQuery) as SumaTotal
+ORDER BY compania, cast(Alta AS UNSIGNED),numfactura ASC]]>
+	</queryString>
+	<field name="compania" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numfactura" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_status" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto_total" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Alta" class="java.lang.String"/>
+	<field name="Vencido" class="java.lang.Double"/>
+	<field name="30Dias" class="java.lang.Double"/>
+	<field name="60Dias" class="java.lang.Double"/>
+	<field name="120Dias" class="java.lang.Double"/>
+	<field name="365Dias" class="java.lang.Double"/>
+	<field name="720Dias" class="java.lang.Double"/>
+	<field name="mas720Dias" class="java.lang.Double"/>
+	<field name="SaldoVencido" class="java.lang.Double"/>
+	<field name="SaldoPorVencer" class="java.lang.Double"/>
+	<variable name="SumaLiq" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_total}]]></variableExpression>
+	</variable>
+	<variable name="30" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{30Dias}]]></variableExpression>
+	</variable>
+	<variable name="60" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{60Dias}]]></variableExpression>
+	</variable>
+	<variable name="120" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{120Dias}]]></variableExpression>
+	</variable>
+	<variable name="365" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{365Dias}]]></variableExpression>
+	</variable>
+	<variable name="720" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{720Dias}]]></variableExpression>
+	</variable>
+	<variable name="m720" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{mas720Dias}]]></variableExpression>
+	</variable>
+	<variable name="SaldoV" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{SaldoVencido}]]></variableExpression>
+	</variable>
+	<variable name="SaldoP" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{SaldoPorVencer}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="98" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="2" width="752" height="96" uuid="72d8bce3-be63-4a6e-98a9-fe2e92b11158"/>
+			</rectangle>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement mode="Transparent" x="4" y="4" width="100" height="94" uuid="740099c5-89cb-43e5-8cff-a6a165a1de23"/>
+				<imageExpression><![CDATA["\\\\10.55.4.4\\Sistemas HSTE\\CXCFacturas\\Logo\\Logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="107" y="5" width="618" height="28" uuid="19cecc95-7af2-4f0c-a75e-1da7e2a2de29"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HOSPITAL DEL SURESTE A.C.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="78" width="49" height="16" uuid="3797332f-4059-4663-8904-086a7795e60a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periodo:]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="158" y="78" width="75" height="16" uuid="65bc0c7b-89f8-44cd-8621-5f7733a12285"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="243" y="78" width="76" height="16" uuid="0dfce8d8-3eca-4bf2-a3e3-e25aee238803"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Fin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="232" y="78" width="12" height="16" uuid="cb6e605a-ea22-4873-a4f7-e587276d2afc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="108" y="24" width="617" height="20" uuid="f0e5ed4d-3ab1-474e-be86-bfa97d8ff8bc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Departamento de Cartera y Cobranza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="108" y="54" width="617" height="20" uuid="42837bae-69e1-411f-b409-19b2605e6f24"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ANTIGÜEDAD DE SALDOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="46" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="26" width="752" height="17" forecolor="#F0F0F0" backcolor="#CCCCCC" uuid="243db880-f11c-4517-8eef-04128c10aa8a"/>
+			</rectangle>
+			<line>
+				<reportElement x="1" y="25" width="751" height="1" uuid="f1ad64df-5cca-4b45-b62f-410890f404d7"/>
+			</line>
+			<line>
+				<reportElement x="0" y="25" width="1" height="20" uuid="8e62666e-339e-4d6e-89de-0ba78ba8c279"/>
+			</line>
+			<line>
+				<reportElement x="751" y="25" width="1" height="20" uuid="f2bbcbc5-2d5a-4c21-877f-c570b7f90773"/>
+			</line>
+			<line>
+				<reportElement x="1" y="44" width="751" height="1" uuid="65449555-7efe-4b64-afee-e5eac82e1de4"/>
+			</line>
+			<staticText>
+				<reportElement x="2" y="25" width="100" height="20" uuid="6d2aa6f6-6a7e-4e3e-8c22-e48523dd0a30"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPAÑIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="25" width="35" height="20" uuid="6602386b-5747-42b2-a201-c943d1b9a4dd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FACT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="237" y="25" width="46" height="20" uuid="3683bf1e-f9f4-4bf5-8b85-ba1f47c87bd5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENTREGA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="25" width="47" height="20" uuid="7128172a-4ec0-4b6d-9a1f-547426ea954d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[30 DIAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="326" y="25" width="27" height="20" uuid="727efd0b-bbe2-485c-a938-1eb69ffdca39"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ALTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="25" width="27" height="20" uuid="2732448a-c1c6-4be7-b2a7-708690f3c937"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VENC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="427" y="25" width="47" height="20" uuid="8d67d03e-6865-4903-aa16-0829e1c10137"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[60 DIAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="474" y="25" width="48" height="20" uuid="ccbd0491-d04d-413b-8374-257d0b918d8d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[120 DIAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="522" y="25" width="45" height="20" uuid="58233d75-cf69-4272-a6f9-eebc0991f5fb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[365 DIAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="567" y="25" width="45" height="20" uuid="801b9aab-161b-44a8-bc89-8c60baca4248"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[720 DIAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="612" y="25" width="45" height="20" uuid="26e46596-46bd-4ab8-86d7-a4204352a9b7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[>720 DIAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="660" y="25" width="45" height="20" uuid="c05c8107-e997-42dc-a9c4-2394c26c4377"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALDO V]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="705" y="25" width="45" height="20" uuid="51148963-fba9-47c9-a6ed-c543c4e65b15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALDO P]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="283" y="25" width="43" height="20" uuid="9bcd3d92-976d-4f2c-89c7-4ed8f02171d7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="0" width="201" height="11" uuid="f0dfdc79-a02f-4a76-85ce-1838a3d029b2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{compania}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="237" y="0" width="46" height="11" uuid="ab27ccd4-09e3-4e70-ac1a-7468eea21376"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_status}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="283" y="0" width="43" height="11" uuid="257da821-dcc5-4ea7-ab39-455fe6e6202e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="202" y="0" width="35" height="11" uuid="42ecf47d-5e29-421d-9620-76a7609742a6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numfactura}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="326" y="0" width="27" height="11" uuid="2f587916-4b6f-41d2-8b4f-a053e0f89c9f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Alta}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="353" y="0" width="27" height="11" uuid="f29769c8-1bd4-4b9c-b4b9-b25eaabd6914"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Vencido}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="427" y="0" width="47" height="11" uuid="9e2f2be9-f500-4ad5-bfa8-2dbaab198472"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{60Dias}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="380" y="0" width="47" height="11" uuid="adf9b98f-1a6d-41f2-a9c0-5b6c89d909f9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{30Dias}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="474" y="0" width="48" height="11" uuid="25ffe5af-1d46-4e1d-9eed-b8a80ee2a6df"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{120Dias}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="522" y="0" width="45" height="11" uuid="15121bd4-0ec8-4325-9bf5-ab46855e01f1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{365Dias}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="567" y="0" width="45" height="11" uuid="a992c72c-73c7-40d4-bfe0-2d32baf0b9e3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{720Dias}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="612" y="0" width="45" height="11" uuid="56722523-fa49-49a4-ba38-ec27383a8094"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mas720Dias}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="660" y="0" width="45" height="11" uuid="271f6d3f-3d5a-4132-8dd8-b19a64d31752"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SaldoVencido}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="705" y="0" width="45" height="11" uuid="ac8b9629-c9bb-4160-9ee3-4fd26d124dc3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SaldoPorVencer}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="631" y="11" width="80" height="15" uuid="510ed55a-e164-4bac-8750-04a4ffaccbc3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pág "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="711" y="11" width="40" height="15" uuid="6fdd31cb-4147-4c85-a005-ce3737e31302"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy  hh:mm aaa">
+				<reportElement x="2" y="11" width="136" height="15" uuid="583f8000-557e-45e2-83bf-e9fa63029269"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="329" y="0" width="59" height="26" uuid="ec924357-1a6c-492e-97de-7ae3c88fd754"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Managed By]]></text>
+			</staticText>
+			<image>
+				<reportElement x="388" y="0" width="36" height="26" uuid="992667d7-8cd4-44d8-8e58-974bf50d1f22"/>
+				<imageExpression><![CDATA["\\\\10.55.4.4\\Sistemas HSTE\\CXCFacturas\\Logo\\Logo Cobranza.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="57">
+			<staticText>
+				<reportElement x="4" y="8" width="100" height="14" uuid="640f10dc-2e13-43fc-8bea-940d31a01286"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTALES]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="285" y="8" width="41" height="14" uuid="fb32fa9a-7ecf-40a0-970a-2734e89dfd54"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SumaLiq}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="380" y="8" width="47" height="14" uuid="e62db52f-fb2a-4acb-be45-b055dfaac371"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{30}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="427" y="8" width="47" height="14" uuid="37a9c531-99bd-4283-9cc4-d5c9deb7e8e2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{60}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="474" y="8" width="48" height="14" uuid="b6ff8546-26dc-4d6d-8cc1-f183d7ace87e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{120}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="522" y="8" width="45" height="14" uuid="757c938f-2690-44a5-8a1d-6760be2c7a4b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{365}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="567" y="8" width="45" height="14" uuid="05ca464d-5f60-4b5a-b58b-83b70a423268"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{720}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="613" y="8" width="44" height="14" uuid="16352e03-795e-461b-9d02-bf7b54489557"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{m720}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="660" y="8" width="45" height="14" uuid="9e01812e-d95d-4d0b-b58d-1f53aae30f3d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SaldoV}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="705" y="8" width="45" height="14" uuid="3083edd1-1afc-4b35-9ace-ed89dfef45cd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SaldoP}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

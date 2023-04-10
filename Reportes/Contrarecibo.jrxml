@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrarecibo" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5bf18aa-ce43-4c83-87c8-ff3ee61a4536">
+	<property name="ireport.zoom" value="1.539474354692125"/>
+	<property name="ireport.x" value="261"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Folio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="statusfact" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Logo" class="java.lang.String"/>
+	<parameter name="LogoACC" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     company.`numfactura` AS company_numfactura,
+     company.`monto_total` AS company_monto_total,
+     CONCAT(num_paciente,' - ',pac_nombre) as paciente,
+     company.`compania` AS company_compania,
+     company.`poliza` AS company_poliza,
+     company.`siniestro` AS company_siniestro,
+     SUM(deducible+coaseguro+descto_esp) as suma,
+     company.`folio_interno` AS company_folio_interno
+FROM
+     `company` company
+
+WHERE folio_interno = $P{Folio} AND status_factura = $P{statusfact}
+
+GROUP BY company.`numfactura`]]>
+	</queryString>
+	<field name="company_numfactura" class="java.lang.Integer"/>
+	<field name="company_monto_total" class="java.lang.Float"/>
+	<field name="paciente" class="java.lang.String"/>
+	<field name="company_compania" class="java.lang.String"/>
+	<field name="company_poliza" class="java.lang.String"/>
+	<field name="company_siniestro" class="java.lang.String"/>
+	<field name="suma" class="java.lang.Double"/>
+	<field name="company_folio_interno" class="java.lang.Integer"/>
+	<variable name="Total" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{company_monto_total}]]></variableExpression>
+	</variable>
+	<variable name="TotalFacturas" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{company_numfactura}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="89" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="2" width="752" height="85" uuid="72d8bce3-be63-4a6e-98a9-fe2e92b11158"/>
+			</rectangle>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement mode="Transparent" x="17" y="3" width="87" height="81" uuid="740099c5-89cb-43e5-8cff-a6a165a1de23"/>
+				<imageExpression><![CDATA[$P{Logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="113" y="3" width="637" height="28" uuid="19cecc95-7af2-4f0c-a75e-1da7e2a2de29"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HOSPITAL DEL SURESTE A.C. - Departamento de Cartera y Cobranza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="22" width="391" height="23" uuid="8596f71f-3a1e-4669-ad9b-ce08745c2357"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Reporte de Contrarecibo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="69" width="90" height="16" uuid="22d42236-28c1-407f-87cf-65d904458262"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Folio Interno:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="204" y="69" width="100" height="16" uuid="6cfca16f-0a44-4fc4-b9f3-7950ea6a4e61"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{company_folio_interno}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="114" y="53" width="72" height="16" uuid="3797332f-4059-4663-8904-086a7795e60a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Compañía:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="186" y="53" width="505" height="16" uuid="6c316afd-b1d6-4d0d-8aed-d9d0f0c6a6f5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{company_compania}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="327" y="70" width="41" height="16" uuid="8c72e0fb-8a54-4439-845d-53311fdbec75"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="373" y="70" width="136" height="17" uuid="bb7e16d6-8e3c-4400-b2a8-dd1563843aae"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{statusfact}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Opaque" x="1" y="16" width="751" height="17" forecolor="#F0F0F0" backcolor="#CCCCCC" uuid="243db880-f11c-4517-8eef-04128c10aa8a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="15" width="90" height="16" uuid="39896fa0-d2f1-4c26-b752-f7ef5ab6ef43"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. FACTURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="15" width="114" height="16" uuid="5d04b94f-3570-40a7-b554-66b92a33fb63"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SINIESTRO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="204" y="15" width="214" height="16" uuid="79d8bfbf-af76-4c7e-9433-13b6a82c8d27"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PACIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="418" y="15" width="114" height="16" uuid="ac5eb948-1073-440c-ab62-3f753f7cc04f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[POLIZA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="531" y="15" width="119" height="16" uuid="da56def5-ed35-4362-812a-3e9733307cf0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEDUC. Y COASEG.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="650" y="15" width="102" height="16" uuid="10543b28-ca65-41f2-b4fa-a86c5db1e434"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPORTE TOTAL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="32" width="752" height="1" uuid="65449555-7efe-4b64-afee-e5eac82e1de4"/>
+			</line>
+			<line>
+				<reportElement x="0" y="15" width="752" height="1" uuid="f1ad64df-5cca-4b45-b62f-410890f404d7"/>
+			</line>
+			<line>
+				<reportElement x="90" y="15" width="1" height="20" uuid="72b080cd-1e52-41cd-928d-a34bc2ae1fc4"/>
+			</line>
+			<line>
+				<reportElement x="203" y="15" width="1" height="20" uuid="9d877911-ccf9-49cc-93de-39e889cffa7f"/>
+			</line>
+			<line>
+				<reportElement x="418" y="15" width="1" height="20" uuid="82356e92-77f3-469f-83ee-bd18798f9d56"/>
+			</line>
+			<line>
+				<reportElement x="531" y="15" width="1" height="20" uuid="085f8e9d-fc99-4b9c-a2eb-8829e7ef756d"/>
+			</line>
+			<line>
+				<reportElement x="650" y="15" width="1" height="20" uuid="9606e28e-2c58-47c2-8cac-c4be63a16a32"/>
+			</line>
+			<line>
+				<reportElement x="0" y="15" width="1" height="20" uuid="8e62666e-339e-4d6e-89de-0ba78ba8c279"/>
+			</line>
+			<line>
+				<reportElement x="751" y="15" width="1" height="20" uuid="f2bbcbc5-2d5a-4c21-877f-c570b7f90773"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="90" height="12" uuid="fb14d3b5-3fd6-4324-b194-b780fd380b7e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{company_numfactura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="0" width="110" height="12" uuid="da1bddae-b030-4736-be82-ff601f8a471f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{company_siniestro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="206" y="0" width="211" height="12" uuid="2f48c400-9600-4e28-b361-94bbbde89db9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paciente}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="90" y="0" width="1" height="12" uuid="d139454d-732b-4475-940f-37f051ac6801"/>
+			</line>
+			<line>
+				<reportElement x="203" y="0" width="1" height="12" uuid="2335e68a-1cf4-460b-84b2-1cc04ccef799"/>
+			</line>
+			<line>
+				<reportElement x="418" y="0" width="1" height="12" uuid="3253c46c-a506-4643-b059-d97e0aac9bcd"/>
+			</line>
+			<line>
+				<reportElement x="531" y="0" width="1" height="12" uuid="79669947-6968-4d67-8043-73d9048bbe6a"/>
+			</line>
+			<line>
+				<reportElement x="650" y="0" width="1" height="12" uuid="b3c6ae9f-6ebb-4734-a069-e7e031b2cf15"/>
+			</line>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="536" y="0" width="114" height="12" uuid="3d68f3e6-2d97-4837-b17a-f330495492e7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{suma}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="655" y="0" width="96" height="12" uuid="9cdb21ba-ec6e-4af1-af86-845007647b28"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{company_monto_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="421" y="0" width="109" height="12" uuid="607af8e8-6e64-4c1c-9ebe-25caa42576d3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{company_poliza}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="1" height="12" uuid="476ab778-fa70-4a25-b284-cb22a9d9971c"/>
+			</line>
+			<line>
+				<reportElement x="751" y="0" width="1" height="12" uuid="9d0b9157-4310-4d14-ad29-673221798b5b"/>
+			</line>
+			<line>
+				<reportElement x="0" y="12" width="752" height="1" uuid="33e243b9-4ca0-4768-892a-8e15be162922"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="27" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="0" width="752" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="59e63696-ee84-440e-887a-0211886318ee"/>
+			</rectangle>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="655" y="3" width="95" height="20" uuid="c9a8c77b-f37a-4fef-8e90-7792983db778"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="596" y="3" width="53" height="20" uuid="c3f8a558-acd5-49d0-a6f0-9651720fde0b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="422" y="3" width="109" height="20" uuid="67d00268-e278-48e6-ae68-a752c6ee0f58"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TotalFacturas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="335" y="3" width="84" height="20" uuid="df507f13-6463-4da5-8541-72b6a0144e8e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FACTURAS:]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="46" splitType="Stretch">
+			<textField>
+				<reportElement x="631" y="31" width="80" height="15" uuid="510ed55a-e164-4bac-8750-04a4ffaccbc3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pág "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="711" y="31" width="40" height="15" uuid="6fdd31cb-4147-4c85-a005-ce3737e31302"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMMMM-yyyy  hh:mm aaa">
+				<reportElement x="0" y="31" width="136" height="15" uuid="583f8000-557e-45e2-83bf-e9fa63029269"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="136" y="31" width="495" height="15" uuid="1a406c00-26ae-4cf8-9679-ae0f7008b1b6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Folio: "+$F{company_folio_interno}+" - [ "+$F{company_compania}+" ]"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="388" y="5" width="36" height="26" uuid="f58cb179-d0e8-4c31-860c-85c466535fed"/>
+				<imageExpression><![CDATA[$P{LogoACC}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="329" y="5" width="59" height="26" uuid="2cdb6a57-146d-48d7-8a0b-29959765b400"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Managed By]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

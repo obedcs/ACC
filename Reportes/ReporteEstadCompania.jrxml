@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrarecibo" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5bf18aa-ce43-4c83-87c8-ff3ee61a4536">
+	<property name="ireport.zoom" value="1.3166562715304009"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Inicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Fin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT DISTINCT numcompania,compania,SUM(monto_total)as total,
+(
+   SELECT SUM(abono)
+   FROM abonos
+   WHERE compannia=compania AND fecha_abono BETWEEN $P{Inicio} AND $P{Fin}
+)as abonado
+FROM company
+WHERE stamp_bitacora BETWEEN $P{Inicio} AND $P{Fin} GROUP BY compania;]]>
+	</queryString>
+	<field name="numcompania" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="compania" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total" class="java.lang.Double"/>
+	<field name="abonado" class="java.lang.Double"/>
+	<variable name="Adeudo" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{total}-$F{abonado}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="75" splitType="Stretch">
+			<rectangle>
+				<reportElement x="10" y="4" width="727" height="67" uuid="b241a9f4-14b2-4844-b965-656e4b179aee"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="262" y="52" width="12" height="16" uuid="ca0eb7c8-3368-4db8-b52e-a55cb61110d4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement mode="Transparent" x="10" y="5" width="90" height="63" uuid="36ab99a6-8c81-41e4-9b59-5eafc5d7fb70"/>
+				<imageExpression><![CDATA["\\\\10.55.4.4\\Sistemas HSTE\\CXCFacturas\\Logo\\Logo.png"]]></imageExpression>
+			</image>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="177" y="52" width="86" height="16" uuid="68e54e9c-f996-42d8-b61d-b5e04aaed95f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Inicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="105" y="52" width="72" height="16" uuid="005d49e1-9f97-4a13-a297-882d1ad1b1f8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periodo:]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="273" y="52" width="86" height="16" uuid="ee5915b7-2db5-48ee-ad25-b805ef5831ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Fin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="106" y="5" width="617" height="28" uuid="061cb679-6a2d-487e-91a0-ff2b89dc01d4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HOSPITAL DEL SURESTE A.C. - Depto. de Cartera y Cobranza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="106" y="24" width="391" height="23" uuid="565955a7-4821-4116-893f-8a9f7b0023ce"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Reporte Estadístico de Pagos por Compañía]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="20" uuid="cf77d65f-611b-45c6-ae18-e8b79e5c7c21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPAÑIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="419" y="0" width="110" height="22" uuid="a8653b24-530f-410f-933e-4faba3b5644f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="530" y="0" width="110" height="22" uuid="a09c1f8b-020a-4008-ba8a-633dc7677b42"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ABONADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="641" y="0" width="110" height="22" uuid="d97f10b8-10d6-4d93-933a-2998a7b9e29e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ADEUDO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="22" width="752" height="1" uuid="c114c15e-e14c-4a11-b161-9f4cde976da9"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField>
+				<reportElement x="18" y="0" width="401" height="14" uuid="344b8bb8-44ea-4520-9cae-a0feb2a33a4b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numcompania}+"  "+$F{compania}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="419" y="0" width="110" height="14" uuid="f357d786-4c88-45c2-8794-c5100a360719"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="530" y="0" width="110" height="14" uuid="973edf6d-862e-41c1-af77-4b37a150c032"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{abonado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="641" y="0" width="110" height="14" uuid="1c392e9f-3900-4152-b795-26c2a9d6beb5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{Adeudo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="606" y="6" width="80" height="20" uuid="706f5535-0ff3-4974-8f78-8acbd33c4523"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="686" y="6" width="40" height="20" uuid="31ef9fc0-4d5b-4759-8e2e-671753f26b27"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy.MMMMM.dd GGG hh:mm aaa">
+				<reportElement x="18" y="6" width="129" height="20" uuid="5cc39ec3-8a99-4819-a223-13e14a4358a8"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="388" y="0" width="36" height="26" uuid="975e76fc-45d6-4cf2-a658-0513cd10164b"/>
+				<imageExpression><![CDATA["\\\\10.55.4.4\\Sistemas HSTE\\CXCFacturas\\Logo\\Logo Cobranza.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="329" y="0" width="59" height="26" uuid="7f2cedc4-b018-4767-9603-e265682fa1bf"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Managed By]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contrarecibo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5bf18aa-ce43-4c83-87c8-ff3ee61a4536">
+	<property name="ireport.zoom" value="1.650000000000003"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Ini" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Fin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\\\\192.168.3.3\\Sistemas HSTE\\CXCFacturas\\Reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT numcompania,compania
+FROM company
+WHERE fecha_recepcion BETWEEN $P{Ini} AND $P{Fin}
+AND status_factura = 'Liquidada'
+GROUP BY numcompania
+ORDER BY numcompania ASC]]>
+	</queryString>
+	<field name="numcompania" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="compania" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<columnHeader>
+		<band height="69" splitType="Stretch">
+			<staticText>
+				<reportElement x="66" y="25" width="314" height="14" uuid="c9a83c43-d032-47fa-9f74-45695676e34a"/>
+				<textElement>
+					<font fontName="Arial" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ESTADISTICA DE FACTURAS LIQUIDADAS POR PERIODO]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="67" y="34" width="66" height="12" uuid="0217e20b-5543-4dbd-ac31-29749b311742"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Ini}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="151" y="34" width="66" height="12" uuid="508a9f52-61a9-4e58-9878-47b32a46bfcb"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Fin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="125" y="34" width="20" height="12" uuid="edd79328-d880-4aa6-bc78-864e84796eee"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="63" width="572" height="1" uuid="44d34847-3ff2-47e3-908d-fa516ea4de4d"/>
+			</line>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement mode="Transparent" x="0" y="0" width="63" height="60" uuid="740099c5-89cb-43e5-8cff-a6a165a1de23"/>
+				<imageExpression><![CDATA["\\\\10.55.4.4\\Sistemas HSTE\\CXCFacturas\\Logo\\Logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="66" y="15" width="314" height="14" uuid="551dbbf0-30aa-46bd-8fe1-1de0264c342f"/>
+				<textElement>
+					<font fontName="Arial" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[HOSPITAL DEL SURESTE A.C.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField pattern="">
+				<reportElement x="9" y="0" width="563" height="12" uuid="aed16d3e-04f9-41fb-a275-4737c2288f67"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numcompania} + ": " + $F{compania}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="9" y="12" width="563" height="10" uuid="bafa1645-f033-411c-a984-4a4c15c9e27a"/>
+				<subreportParameter name="Ini">
+					<subreportParameterExpression><![CDATA[$P{Ini}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Fin">
+					<subreportParameterExpression><![CDATA[$P{Fin}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Comp">
+					<subreportParameterExpression><![CDATA[$F{numcompania}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Sub_Estad_Companias.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="507" y="0" width="40" height="12" uuid="a742d482-2082-442c-890e-a70db78b596a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIAS]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="1" width="572" height="13" forecolor="#000000" backcolor="#CCCCCC" uuid="59e63696-ee84-440e-887a-0211886318ee"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="1" width="156" height="13" uuid="e8f682e1-73b2-4e1d-b79e-d3bf3963c860"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA["Sirviendo con amor al sureste mexicano"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="412" y="1" width="160" height="13" uuid="b316508b-7b8c-45b1-a3aa-77c089d50427"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[GRACIAS POR PERMITIRNOS SERVIRLE]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="452" y="10" width="80" height="15" uuid="510ed55a-e164-4bac-8750-04a4ffaccbc3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pág "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="532" y="10" width="40" height="15" uuid="6fdd31cb-4147-4c85-a005-ce3737e31302"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMMMM-yyyy  hh:mm aaa">
+				<reportElement x="0" y="10" width="136" height="15" uuid="583f8000-557e-45e2-83bf-e9fa63029269"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="299" y="0" width="36" height="26" uuid="8961371b-f881-4324-88db-e1484c92b552"/>
+				<imageExpression><![CDATA["\\\\10.55.4.4\\Sistemas HSTE\\CXCFacturas\\Logo\\Logo Cobranza.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="240" y="0" width="59" height="26" uuid="8eccf271-d7f5-4b57-b47f-98f931bd9add"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Managed By]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
